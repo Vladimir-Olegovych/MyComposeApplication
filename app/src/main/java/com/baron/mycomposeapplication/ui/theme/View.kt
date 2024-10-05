@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.baron.domain.model.Coin
+import java.math.BigDecimal
+import java.math.MathContext
 
 @Composable
 fun CustomButton(
@@ -16,7 +18,7 @@ fun CustomButton(
     onClick: () -> Unit
 ) {
     Button(
-        onClick = onClick,
+        onClick = {onClick.invoke()},
         modifier = modifier
     ) {
         Text(
@@ -28,10 +30,11 @@ fun CustomButton(
 
 @Composable
 fun CustomCard(coin: Coin) {
+    val value = BigDecimal(coin.value) / BigDecimal(coin.nominal)
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(text = "Coin: ${coin.name}")
-        Text(text = "Value: ${coin.value} рублей")
+        Text(text = "Value: ${value.round(MathContext(4))} рублей")
     }
 }
